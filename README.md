@@ -1,4 +1,4 @@
-Cogntio+ Substance Abuse Vulnerability Screening
+Cogntio+ Substance Abuse Vulnerability Screening| 
 A web-based screening tool designed to assess individual vulnerability to substance use based on three core domains: Exposure, Sensitivity, and Coping. This application supports mental health awareness and early intervention efforts through an evidence-informed questionnaire and actionable recommendations.
 
 🚀 Features
