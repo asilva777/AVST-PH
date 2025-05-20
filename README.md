@@ -1,5 +1,6 @@
-DAST-10 Screening Tool – Cognitio+
-Overview
+#DAST-10 Screening Tool – Cognitio+
+
+#Overview
 The Drug Abuse Screening Test (DAST-10) is a brief, self-report screening tool designed to identify individuals who may be abusing drugs, excluding alcohol. This implementation is part of the Cognitio+ mental health platform and serves as a confidential self-assessment.
 
 Features
@@ -9,13 +10,13 @@ Derived from the validated DAST-10 tool to evaluate potential drug use issues.
 Client-Friendly Interface
 Includes name, age, and informed consent fields.
 
-Scoring Logic
+#Scoring Logic
 
 Binary scoring system (Yes = 1, No = 0).
 
 Question 3 is reverse scored per DAST-10 methodology.
 
-Risk Interpretation
+#Risk Interpretation
 Provides an actionable interpretation of scores:
 
 0: No problems
