@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cogntio+ Substance Abuse Vulnerability Screening</title>
+  <title>Cogntio+ DAST-10 Screening Tool</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -21,7 +21,7 @@
 
     main {
       padding: 2rem;
-      max-width: 1000px;
+      max-width: 800px;
       margin: auto;
       background: white;
       border-radius: 10px;
@@ -67,11 +67,13 @@
 </head>
 <body>
   <header>
-    <h1>Cogntio+ Substance Abuse Vulnerability Screening</h1>
+    <h1>DAST-10 Drug Abuse Screening Test</h1>
   </header>
   <main>
     <div class="section">
-      <p>Rate each statement below based on how true it has been for you in the past month (1 = Strongly Disagree to 5 = Strongly Agree).</p>
+      <p><strong>The following questions concern information about your possible involvement with drugs (not including alcoholic beverages) during the past 12 months.</strong></p>
+      <p>"Drug abuse" refers to (1) the use of prescribed or over‐the‐counter drugs in excess of the directions, and (2) any nonmedical use of drugs. The various classes of drugs may include cannabis (marijuana, hashish), solvents (e.g., paint thinner), tranquilizers (e.g., Valium), barbiturates, cocaine, stimulants (e.g., speed), hallucinogens (e.g., LSD), or narcotics (e.g., heroin). <strong>Remember: These questions do NOT refer to alcoholic beverages.</strong></p>
+      <p>Please answer every question. If you have difficulty with a statement, choose the response that is mostly right.</p>
     </div>
 
     <form id="assessmentForm">
@@ -83,85 +85,54 @@
   </main>
 
   <script>
-    const questions = {
-      Exposure: [
-        "I often find myself in places where people are using alcohol or drugs, like parties, bars, other gatherings.",
-        "It's easy to find alcohol or drugs in my neighborhood or among my friends.",
-        "I have seen family members or close friends using alcohol or drugs.",
-        "My friends or barkada pressure or encourage me to try alcohol or drugs.",
-        "I often hang out with people who drink or use drugs.",
-        "I often see ads or shows that promote drinking or drug use.",
-        "I follow social media pages or influencers who post about alcohol or drugs."
-      ],
-      Sensitivity: [
-        "I often feel stressed, anxious, or sad.",
-        "I find it hard to handle my emotions without using alcohol or drugs.",
-        "I have family or friends I can count on when I’m going through a tough time.",
-        "I often feel alone or left out.",
-        "I’ve been through something painful in life that still affects how I feel now.",
-        "It’s hard for me to deal with memories or emotions from bad experiences in the past."
-      ],
-      Coping: [
-        "I find it hard to control my urges or cravings to use alcohol or drugs.",
-        "I have a hard time sticking to healthy routines like eating right or getting enough sleep.",
-        "I have health problems that I feel make me more at risk of using alcohol or drugs.",
-        "I often do things that help my body stay healthy, like exercise or eating nutritious food.",
-        "I regularly do things like deep breathing or quiet time to help me manage stress and think clearly.",
-        "I struggle to adjust when there are big changes or problems in my life.",
-        "My home or place where I live helps me live a healthy and organized life.",
-        "I often feel stressed or overwhelmed by my daily tasks and responsibilities."
-      ]
-    };
+    const questions = [
+      "1. Have you used drugs other than those required for medical reasons?",
+      "2. Do you abuse more than one drug at a time?",
+      "3. Are you unable to stop abusing drugs when you want to?",
+      "4. Have you ever had blackouts or flashbacks as a result of drug use?",
+      "5. Do you ever feel bad or guilty about your drug use?",
+      "6. Does your spouse (or parents) ever complain about your involvement with drugs?",
+      "7. Have you neglected your family because of your use of drugs?",
+      "8. Have you engaged in illegal activities in order to obtain drugs?",
+      "9. Have you ever experienced withdrawal symptoms (felt sick) when you stopped taking drugs?",
+      "10. Have you had medical problems as a result of your drug use (e.g., memory loss, hepatitis, convulsions, bleeding)?"
+    ];
 
     const questionContainer = document.getElementById("questions");
-
-    Object.entries(questions).forEach(([category, qs]) => {
-      const section = document.createElement("div");
-      section.innerHTML = `<h3>${category}</h3>`;
-      qs.forEach((q, i) => {
-        const id = `${category}_${i}`;
-        section.innerHTML += `
-          <label for="${id}">${q}</label>
-          <select id="${id}" name="${id}">
-            <option value="1">1 - Strongly Disagree</option>
-            <option value="2">2 - Disagree</option>
-            <option value="3">3 - Neutral</option>
-            <option value="4">4 - Agree</option>
-            <option value="5">5 - Strongly Agree</option>
-          </select>
-        `;
-      });
-      questionContainer.appendChild(section);
+    questions.forEach((q, i) => {
+      const id = `q_${i}`;
+      questionContainer.innerHTML += `
+        <label for="${id}">${q}</label>
+        <select id="${id}" name="${id}">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      `;
     });
 
     function submitAssessment() {
-      let scores = { Exposure: 0, Sensitivity: 0, Coping: 0 };
-      let counts = { Exposure: 0, Sensitivity: 0, Coping: 0 };
+      let score = 0;
+      for (let i = 0; i < 10; i++) {
+        const val = parseInt(document.getElementById(`q_${i}`).value);
+        if (i === 2) score += val === 0 ? 1 : 0; // Question 3 reverse scored
+        else score += val;
+      }
 
-      Object.entries(questions).forEach(([category, qs]) => {
-        qs.forEach((_, i) => {
-          const val = parseInt(document.getElementById(`${category}_${i}`).value);
-          scores[category] += val;
-          counts[category]++;
-        });
-      });
-
-      let resultsText = "<h3>Assessment Results</h3>";
-      Object.entries(scores).forEach(([cat, score]) => {
-        const avg = (score / counts[cat]).toFixed(2);
-        resultsText += `<p><strong>${cat} Score:</strong> ${avg} / 5</p>`;
-
-        if (avg >= 4) {
-          resultsText += `<p><em>High vulnerability in ${cat}. Personalized Recommendation: Implement targeted education, trauma-informed care, and seek community-based support services like CBDRP or mobile health clinics.</em></p>`;
-        } else if (avg >= 2.5) {
-          resultsText += `<p><em>Moderate risk in ${cat}. Recommendation: Participate in mindfulness, counseling, or school-based education programs.</em></p>`;
-        } else {
-          resultsText += `<p><em>Low risk in ${cat}. Maintain support networks and proactive mental wellness habits.</em></p>`;
-        }
-      });
+      let interpretation = "";
+      if (score === 0) {
+        interpretation = "No problems reported. Suggested Action: None at this time.";
+      } else if (score <= 2) {
+        interpretation = "Low level. Suggested Action: Monitor and re-assess at a later date.";
+      } else if (score <= 5) {
+        interpretation = "Moderate level. Suggested Action: Further investigation recommended.";
+      } else if (score <= 8) {
+        interpretation = "Substantial level. Suggested Action: Intensive assessment needed.";
+      } else {
+        interpretation = "Severe level. Suggested Action: Intensive assessment urgently needed.";
+      }
 
       document.getElementById("results").style.display = "block";
-      document.getElementById("results").innerHTML = resultsText;
+      document.getElementById("results").innerHTML = `<h3>Assessment Results</h3><p><strong>Score:</strong> ${score}</p><p>${interpretation}</p>`;
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
   </script>
