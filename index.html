@@ -41,11 +41,15 @@
       margin: 1rem 0 0.5rem;
     }
 
-    select {
+    select, input[type="text"], input[type="number"] {
       width: 100%;
       padding: 0.5rem;
       border: 1px solid #ccc;
       border-radius: 5px;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 0.5rem;
     }
 
     button {
@@ -67,7 +71,7 @@
 </head>
 <body>
   <header>
-    <h1>DAST-10 Drug Abuse Screening Test</h1>
+    <h1>Drug Abuse Screening Test (DAST-10)</h1>
   </header>
   <main>
     <div class="section">
@@ -77,7 +81,20 @@
     </div>
 
     <form id="assessmentForm">
+      <div class="section">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+      </div>
+
       <div class="section" id="questions"></div>
+
+      <div class="section">
+        <label><input type="checkbox" id="consent" required> I confirm that I understand the purpose of this screening tool and consent to its use for self-assessment only.</label>
+      </div>
+
       <button type="button" onclick="submitAssessment()">Submit Assessment</button>
     </form>
 
@@ -111,6 +128,15 @@
     });
 
     function submitAssessment() {
+      const name = document.getElementById("name").value.trim();
+      const age = document.getElementById("age").value.trim();
+      const consent = document.getElementById("consent").checked;
+
+      if (!name || !age || !consent) {
+        alert("Please fill in your name, age, and confirm consent before proceeding.");
+        return;
+      }
+
       let score = 0;
       for (let i = 0; i < 10; i++) {
         const val = parseInt(document.getElementById(`q_${i}`).value);
@@ -128,11 +154,17 @@
       } else if (score <= 8) {
         interpretation = "Substantial level. Suggested Action: Intensive assessment needed.";
       } else {
-        interpretation = "Severe level. Suggested Action: Intensive assessment urgently needed.";
+        interpretation = `Severe level. Suggested Action: Intensive assessment urgently needed.<br><br><strong>Referral to Treatment:</strong><br>
+        <ol>
+          <li><strong>Raise the Subject:</strong> Explain your role, ask permission to discuss drug use, ask about usage patterns, explore concerns, listen carefully.</li>
+          <li><strong>Provide Feedback:</strong> Explain DAST score and consequences, elicit reaction, connect to health/social/work impacts.</li>
+          <li><strong>Enhance Motivation:</strong> Summarize findings and express concern, explore patient readiness and interest in referral using readiness ruler and pros/cons discussion.</li>
+          <li><strong>Negotiate Plan:</strong> If not ready, provide materials and schedule follow-up. If ready, explore treatment options and offer warm handoff to behavioral specialist or program.</li>
+        </ol>`;
       }
 
       document.getElementById("results").style.display = "block";
-      document.getElementById("results").innerHTML = `<h3>Assessment Results</h3><p><strong>Score:</strong> ${score}</p><p>${interpretation}</p>`;
+      document.getElementById("results").innerHTML = `<h3>Assessment Results for ${name}, Age ${age}</h3><p><strong>Score:</strong> ${score}</p><p>${interpretation}</p>`;
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
   </script>
