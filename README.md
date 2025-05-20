@@ -1,62 +1,61 @@
-Cogntio+ Substance Abuse Vulnerability Screening| 
-A web-based screening tool designed to assess individual vulnerability to substance use based on three core domains: Exposure, Sensitivity, and Coping. This application supports mental health awareness and early intervention efforts through an evidence-informed questionnaire and actionable recommendations.
+DAST-10 Screening Tool – Cognitio+
+Overview
+The Drug Abuse Screening Test (DAST-10) is a brief, self-report screening tool designed to identify individuals who may be abusing drugs, excluding alcohol. This implementation is part of the Cognitio+ mental health platform and serves as a confidential self-assessment.
 
-🚀 Features
-Structured Questionnaire: 3 core dimensions with targeted questions:
+Features
+10 Evidence-Based Questions
+Derived from the validated DAST-10 tool to evaluate potential drug use issues.
 
-Exposure – environmental and social access to substances
+Client-Friendly Interface
+Includes name, age, and informed consent fields.
 
-Sensitivity – emotional and psychological resilience
+Scoring Logic
 
-Coping – physical health, habits, and life stressors
+Binary scoring system (Yes = 1, No = 0).
 
-User-Friendly Interface: Accessible and mobile-responsive layout
+Question 3 is reverse scored per DAST-10 methodology.
 
-Personalized Recommendations: Instant feedback with prevention strategies based on response scores
+Risk Interpretation
+Provides an actionable interpretation of scores:
 
-No Login Required: Anonymous and easy to use
+0: No problems
 
-📋 How It Works
-Users respond to a series of statements by selecting how true each is for them on a 5-point Likert scale.
+1–2: Low level – monitor
 
-Average scores are computed for each category.
+3–5: Moderate – recommend further assessment
 
-Based on thresholds, results and tailored recommendations are displayed:
+6–8: Substantial – intensive assessment needed
 
-High Risk (avg ≥ 4.0)
+9–10: Severe – urgent intervention and referral recommended
 
-Moderate Risk (2.5 ≤ avg < 4.0)
+Actionable Recommendations
+For high scores, detailed referral guidance is displayed (Raise the Subject, Provide Feedback, Enhance Motivation, Negotiate Plan).
 
-Low Risk (avg < 2.5)
+Usage
+Open index.html in any modern browser.
 
-🛠 Getting Started
-🔗 View Online
-Upload to GitHub Pages, Netlify, or any HTTPS-enabled hosting provider.
+Fill in name and age.
 
-Clone this repo:
+Answer all 10 questions.
 
+Confirm consent checkbox.
 
-git clone https://github.com/your-username/cogntio-substance-abuse-screening.git
-cd cogntio-substance-abuse-screening
-Open index.html in your web browser.
+Click Submit Assessment.
 
-🔒 HTTPS Hosting
-To ensure secure access:
+Results and interpretation will appear at the bottom of the page.
 
-Deploy on GitHub Pages
+Notes
+This tool is designed for self-assessment only and is not a diagnostic instrument.
 
-Or use platforms like Netlify, Vercel, or Render
+It does not collect or store user data unless extended with a backend or database.
 
-These services provide free HTTPS by default.
+Always follow up with a professional clinician if the tool indicates moderate to severe use.
 
-🧠 Purpose & Use Cases
-Schools and universities for wellness check-ins
+Customization
+If you'd like to:
 
-Community health programs
+Connect it to a backend (e.g., PHP, Firebase, Google Sheets)
 
-Personal self-reflection tools
+Translate to another language
 
-Complementary use in counseling settings
-
-📄 License
-MIT License – free to use, modify, and distribute with credit.
+Embed in a larger health platform
