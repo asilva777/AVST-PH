@@ -2,171 +2,396 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cogntio+ DAST-10 Screening Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cognitio+ PH – Addiction Vulnerability Screening Tool (AVST-PH)</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400,600|Montserrat:400,700|Roboto+Condensed:400,700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f9;
+    :root {
+      --primary: #b425aa;
+      --accent: #f3e329;
+      --secondary: #c80ec9;
+      --white: #fff;
+      --gray-bg: #f4f6f9;
+      --shadow: 0 0 12px rgba(0,0,0,0.08);
+    }
+    html, body {
+      height: 100%;
       margin: 0;
       padding: 0;
+      background: var(--gray-bg);
+      font-family: 'Montserrat', 'Roboto Condensed', 'Oswald', Arial, sans-serif;
     }
-
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
     header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary) 70%);
+      color: var(--white);
+      padding: 2rem 1rem 1.4rem 1rem;
       text-align: center;
+      box-shadow: var(--shadow);
     }
-
+    header h1 {
+      font-family: 'Oswald', Arial, sans-serif;
+      font-size: 2.3rem;
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    header p {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0.5rem auto 0 auto;
+      font-size: 1.1rem;
+      max-width: 820px;
+      line-height: 1.5;
+    }
     main {
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin: 2.5rem auto 2rem auto;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 2.5rem 2rem 2rem 2rem;
+      font-family: 'Montserrat', 'Roboto Condensed', sans-serif;
     }
-
-    h2, h3 {
-      color: #2c3e50;
+    h2 {
+      color: var(--primary);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-top: 0;
+      margin-bottom: 1.4rem;
     }
-
+    h3 {
+      color: var(--secondary);
+      font-family: 'Montserrat', sans-serif;
+      margin-top: 1.5rem;
+      margin-bottom: 0.6rem;
+    }
     .section {
       margin-bottom: 2rem;
     }
-
-    label {
+    label, .form-label {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 500;
+      color: #222;
       display: block;
-      margin: 1rem 0 0.5rem;
+      margin: 0.7rem 0 0.25rem 0;
     }
-
-    select, input[type="text"], input[type="number"] {
+    input[type="text"], input[type="number"], select {
       width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      padding: 0.6rem;
+      border: 1.5px solid #d1c7d3;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: 'Roboto Condensed', Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      margin-bottom: 0.85rem;
     }
-
-    input[type="checkbox"] {
-      margin-right: 0.5rem;
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 0.35rem;
+      accent-color: var(--primary);
+      vertical-align: middle;
     }
-
-    button {
-      background-color: #2980b9;
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 5px;
-      cursor: pointer;
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+    .region-select {
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 1rem;
+    }
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+    .form-row > div {
+      flex: 1;
+      min-width: 140px;
+    }
+    .notice {
+      background: linear-gradient(90deg, var(--secondary) 60%, var(--accent) 100%);
+      color: var(--white);
+      padding: 1.1rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 1.08rem;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: var(--shadow);
+    }
+    .consent-box {
+      background: #f9f2fc;
+      border-left: 5px solid var(--primary);
+      padding: 1rem 1.3rem;
+      border-radius: 7px;
+      margin-bottom: 1.5rem;
+      color: #333;
       font-size: 1rem;
     }
-
+    .consent-box label {
+      color: #111;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+    .signature-section {
+      background: #f3e32922;
+      border-left: 5px solid var(--accent);
+      padding: 1rem 1.3rem;
+      border-radius: 7px;
+      color: #333;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    .signature-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      align-items: flex-end;
+    }
+    .signature-row > div {
+      flex: 1 1 180px;
+      min-width: 160px;
+    }
+    .minor-section {
+      margin-top: 1rem;
+      background: #f7f7f7;
+      border-left: 5px solid var(--secondary);
+      padding: 1rem 1.3rem;
+      border-radius: 7px;
+      color: #111;
+    }
+    button, .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: var(--white);
+      border: none;
+      padding: 0.9rem 2.1rem;
+      border-radius: 7px;
+      font-size: 1.08rem;
+      font-family: 'Oswald', Arial, sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 16px rgba(180,37,170,0.05);
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+    button:hover { background: linear-gradient(90deg, var(--secondary), var(--primary)); }
     .results {
-      background: #ecf0f1;
-      padding: 1rem;
-      border-radius: 8px;
+      background: #fff2fa;
+      border-left: 7px solid var(--primary);
+      padding: 1.5rem 1.2rem;
+      border-radius: 9px;
+      margin-top: 2rem;
+      color: #222;
+      font-size: 1.1rem;
+      box-shadow: var(--shadow);
+    }
+    .results h3 {
+      color: var(--primary);
+      margin-top: 0;
+    }
+    .risk-low { color: #23b425; font-weight: bold; }
+    .risk-moderate { color: #e6a500; font-weight: bold; }
+    .risk-high { color: #d70e3d; font-weight: bold; }
+    .referral-actions {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .referral-actions a, .referral-actions button {
+      background: var(--accent);
+      color: #222;
+      border: none;
+      border-radius: 6px;
+      padding: 0.4rem 1.3rem;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-right: 0.5rem;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0.2rem;
+      transition: background 0.16s;
+    }
+    .referral-actions a:hover, .referral-actions button:hover {
+      background: #ede163;
+      color: #111;
+    }
+    .validation-error {
+      color: #d70e3d;
+      font-size: 1rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      margin-top: 0.7rem;
+      margin-bottom: 0.7rem;
+    }
+    @media (max-width:700px) {
+      main { padding: 1.2rem 0.5rem; }
+      header h1 { font-size: 1.3rem; }
+      .signature-row { flex-direction: column; gap: 0.7rem; }
+      .form-row { flex-direction: column; gap: 0.2rem; }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Drug Abuse Screening Test (DAST-10)</h1>
+    <h1>🌿 Cognitio+ PH – Addiction Vulnerability Screening Tool (AVST-PH)</h1>
+    <p>
+      <strong>Validated, Culturally Responsive, and DOH-Aligned</strong><br>
+      <span>
+        In compliance with the Philippine Mental Health Act (RA 11036), DOH Guidelines, and Data Privacy Act (RA 10173).
+      </span>
+    </p>
   </header>
   <main>
-    <div class="section">
-      <p><strong>The following questions concern information about your possible involvement with drugs (not including alcoholic beverages) during the past 12 months.</strong></p>
-      <p>"Drug abuse" refers to (1) the use of prescribed or over‐the‐counter drugs in excess of the directions, and (2) any nonmedical use of drugs. The various classes of drugs may include cannabis (marijuana, hashish), solvents (e.g., paint thinner), tranquilizers (e.g., Valium), barbiturates, cocaine, stimulants (e.g., speed), hallucinogens (e.g., LSD), or narcotics (e.g., heroin). <strong>Remember: These questions do NOT refer to alcoholic beverages.</strong></p>
-      <p>Please answer every question. If you have difficulty with a statement, choose the response that is mostly right.</p>
+    <div class="notice">
+      <strong>Purpose:</strong>
+      To screen for potential drug use and addiction vulnerability among Filipino adolescents and adults (excluding alcohol). For use in schools, workplaces, clinics, and community settings, under ethical and professional supervision.
     </div>
-
-    <form id="assessmentForm">
+    <form id="avstForm" autocomplete="off">
+      <!-- Demographics -->
       <div class="section">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" required>
-
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required>
+        <h2>Demographic Information</h2>
+        <div class="form-row">
+          <div>
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" autocomplete="off" required>
+          </div>
+          <div>
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" min="10" max="99" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label class="form-label">Gender</label>
+            <div class="radio-group">
+              <label><input type="radio" name="gender" value="Male" required> Male</label>
+              <label><input type="radio" name="gender" value="Female"> Female</label>
+              <label><input type="radio" name="gender" value="LGBTQ+"> LGBTQ+</label>
+              <label><input type="radio" name="gender" value="Prefer not to say"> Prefer not to say</label>
+            </div>
+          </div>
+          <div>
+            <label for="region">Region</label>
+            <select id="region" name="region" class="region-select" required>
+              <option value="">Select Region</option>
+              <option>NCR</option>
+              <option>Region I – Ilocos</option>
+              <option>Region II – Cagayan Valley</option>
+              <option>Region III – Central Luzon</option>
+              <option>Region IV-A – CALABARZON</option>
+              <option>Region IV-B – MIMAROPA</option>
+              <option>Region V – Bicol</option>
+              <option>Region VI – Western Visayas</option>
+              <option>Region VII – Central Visayas</option>
+              <option>Region VIII – Eastern Visayas</option>
+              <option>Region IX – Zamboanga Peninsula</option>
+              <option>Region X – Northern Mindanao</option>
+              <option>Region XI – Davao Region</option>
+              <option>Region XII – SOCCSKSARGEN</option>
+              <option>Region XIII – Caraga</option>
+              <option>BARMM</option>
+              <option>Cordillera Administrative Region (CAR)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label class="form-label">Occupation/Status</label>
+            <div class="radio-group">
+              <label><input type="radio" name="status" value="Student" required> Student</label>
+              <label><input type="radio" name="status" value="Employed"> Employed</label>
+              <label><input type="radio" name="status" value="Unemployed"> Unemployed</label>
+              <label><input type="radio" name="status" value="Out-of-School Youth"> Out-of-School Youth</label>
+              <label><input type="radio" name="status" value="Other"> Other</label>
+            </div>
+            <input type="text" id="status_other" name="status_other" placeholder="If Other, please specify" style="display:none;">
+          </div>
+        </div>
       </div>
 
-      <div class="section" id="questions"></div>
-
+      <!-- Screening Questions -->
       <div class="section">
-        <label><input type="checkbox" id="consent" required> I confirm that I understand the purpose of this screening tool and consent to its use for self-assessment only.</label>
+        <h2>Screening Questions (Past 12 Months)</h2>
+        <p style="margin-bottom:1.3rem;color:#333;">
+          "Drug abuse" refers to:
+          <ul style="margin:0 0 0 1rem;padding:0;color:#333;">
+            <li>Using prescription or over-the-counter drugs more than directed</li>
+            <li>Using any drug for non-medical reasons (e.g., to feel high, stay awake, cope with stress)</li>
+            <li>
+              <strong>This includes:</strong> 
+              cannabis/marijuana (buntot kuting), shabu (methamphetamine), tranquilizers, barbiturates, LSD, sagad/codeine, inhalants (rugby/tuslob), bath salts, spice, and others.
+            </li>
+          </ul>
+          <span style="color:#b425aa;font-weight:bold;">Note: This tool does NOT include alcohol or tobacco.</span>
+        </p>
+        <div id="questions"></div>
       </div>
 
-      <button type="button" onclick="submitAssessment()">Submit Assessment</button>
+      <!-- Consent -->
+      <div class="section consent-box">
+        <h3 style="color:#b425aa;margin-top:0;">Informed Consent & Declaration</h3>
+        <ul style="margin:0.3rem 0 1rem 1.2rem;padding:0;font-size:1rem;line-height:1.6;">
+          <li>I understand this is a screening tool, not a diagnosis.</li>
+          <li>My responses will be kept confidential and stored securely (RA 10173).</li>
+          <li>Results may be shared only with authorized professionals (e.g., counselor, psychologist, doctor).</li>
+          <li>I have the right to withdraw at any time.</li>
+          <li>I consent to this assessment for self-awareness and early intervention.</li>
+        </ul>
+        <label>
+          <input type="checkbox" id="consent" name="consent" required>
+          I confirm my informed consent and agree to the above.
+        </label>
+      </div>
+
+      <!-- Signature/Date -->
+      <div class="signature-section">
+        <div class="signature-row">
+          <div>
+            <label for="signature">Signature (Digital/Printed)</label>
+            <input type="text" id="signature" name="signature" autocomplete="off" required>
+          </div>
+          <div>
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+        </div>
+        <div class="signature-row minor-section" id="minorSection" style="display:none;">
+          <div>
+            <label for="parent_name">Parent/Guardian Name</label>
+            <input type="text" id="parent_name" name="parent_name">
+          </div>
+          <div>
+            <label for="parent_signature">Signature</label>
+            <input type="text" id="parent_signature" name="parent_signature">
+          </div>
+          <div>
+            <label for="parent_date">Date</label>
+            <input type="date" id="parent_date" name="parent_date">
+          </div>
+        </div>
+        <div style="font-size:0.97rem;color:#444;margin-top:0.7rem;">
+          <span style="color:#d70e3d;font-weight:600;">For minors (below 18):</span> Parent/guardian must co-sign.
+        </div>
+      </div>
+
+      <div id="validationMsg" class="validation-error"></div>
+      <button type="button" onclick="submitAVST()">Submit Assessment</button>
     </form>
 
-    <div class="section results" id="results" style="display:none;"></div>
+    <div class="results" id="results" style="display:none;"></div>
   </main>
-
-  <script>
-    const questions = [
-      "1. Have you used drugs other than those required for medical reasons?",
-      "2. Do you abuse more than one drug at a time?",
-      "3. Are you unable to stop abusing drugs when you want to?",
-      "4. Have you ever had blackouts or flashbacks as a result of drug use?",
-      "5. Do you ever feel bad or guilty about your drug use?",
-      "6. Does your spouse (or parents) ever complain about your involvement with drugs?",
-      "7. Have you neglected your family because of your use of drugs?",
-      "8. Have you engaged in illegal activities in order to obtain drugs?",
-      "9. Have you ever experienced withdrawal symptoms (felt sick) when you stopped taking drugs?",
-      "10. Have you had medical problems as a result of your drug use (e.g., memory loss, hepatitis, convulsions, bleeding)?"
-    ];
-
-    const questionContainer = document.getElementById("questions");
-    questions.forEach((q, i) => {
-      const id = `q_${i}`;
-      questionContainer.innerHTML += `
-        <label for="${id}">${q}</label>
-        <select id="${id}" name="${id}">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      `;
-    });
-
-    function submitAssessment() {
-      const name = document.getElementById("name").value.trim();
-      const age = document.getElementById("age").value.trim();
-      const consent = document.getElementById("consent").checked;
-
-      if (!name || !age || !consent) {
-        alert("Please fill in your name, age, and confirm consent before proceeding.");
-        return;
-      }
-
-      let score = 0;
-      for (let i = 0; i < 10; i++) {
-        const val = parseInt(document.getElementById(`q_${i}`).value);
-        if (i === 2) score += val === 0 ? 1 : 0; // Question 3 reverse scored
-        else score += val;
-      }
-
-      let interpretation = "";
-      if (score === 0) {
-        interpretation = "No problems reported. Suggested Action: None at this time.";
-      } else if (score <= 2) {
-        interpretation = "Low level. Suggested Action: Monitor and re-assess at a later date.";
-      } else if (score <= 5) {
-        interpretation = "Moderate level. Suggested Action: Further investigation recommended.";
-      } else if (score <= 8) {
-        interpretation = "Substantial level. Suggested Action: Intensive assessment needed.";
-      } else {
-        interpretation = `Severe level. Suggested Action: Intensive assessment urgently needed.<br><br><strong>Referral to Treatment:</strong><br>
-        <ol>
-          <li><strong>Raise the Subject:</strong> Explain your role, ask permission to discuss drug use, ask about usage patterns, explore concerns, listen carefully.</li>
-          <li><strong>Provide Feedback:</strong> Explain DAST score and consequences, elicit reaction, connect to health/social/work impacts.</li>
-          <li><strong>Enhance Motivation:</strong> Summarize findings and express concern, explore patient readiness and interest in referral using readiness ruler and pros/cons discussion.</li>
-          <li><strong>Negotiate Plan:</strong> If not ready, provide materials and schedule follow-up. If ready, explore treatment options and offer warm handoff to behavioral specialist or program.</li>
-        </ol>`;
-      }
-
-      document.getElementById("results").style.display = "block";
-      document.getElementById("results").innerHTML = `<h3>Assessment Results for ${name}, Age ${age}</h3><p><strong>Score:</strong> ${score}</p><p>${interpretation}</p>`;
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
