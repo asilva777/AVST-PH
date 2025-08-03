@@ -1,62 +1,23 @@
-#DAST-10 Screening Tool – Cognitio+
+#ADDICTION VULNERABILITY SCREENING TOOL
 
-#Overview
-The Drug Abuse Screening Test (DAST-10) is a brief, self-report screening tool designed to identify individuals who may be abusing drugs, excluding alcohol. This implementation is part of the Cognitio+ mental health platform and serves as a confidential self-assessment.
+Aligned Instrument with Philippine Standards, including:
 
-Features
-10 Evidence-Based Questions
-Derived from the validated DAST-10 tool to evaluate potential drug use issues.
+•	Philippine Mental Health Act (RA 11036)
+•	Department of Health (DOH) Guidelines on Substance Use Disorders
+•	Philippine Clinical Practice Guidelines (PCPG)
+•	Cultural sensitivity (language, local drug use patterns, family dynamics)
+•	Scientific validity (adapted from CAGE, ASSIST, and NIDA Quick Screen)
+•	Ethical compliance (informed consent, privacy, referral pathways)
 
-Client-Friendly Interface
-Includes name, age, and informed consent fields.
 
-#Scoring Logic
+Addiction Vulnerability Screening Tool (AVST-PH)
+Validated, Culturally Responsive, and DOH-Aligned
 
-Binary scoring system (Yes = 1, No = 0).
+Purpose: To screen for potential drug use and addiction vulnerability among Filipino adolescents and adults, excluding alcohol. Designed for schools, workplaces, and clinics under ethical and professional supervision. 
 
-Question 3 is reverse scored per DAST-10 methodology.
-
-#Risk Interpretation
-Provides an actionable interpretation of scores:
-
-0: No problems
-
-1–2: Low level – monitor
-
-3–5: Moderate – recommend further assessment
-
-6–8: Substantial – intensive assessment needed
-
-9–10: Severe – urgent intervention and referral recommended
-
-Actionable Recommendations
-For high scores, detailed referral guidance is displayed (Raise the Subject, Provide Feedback, Enhance Motivation, Negotiate Plan).
-
-Usage
-Open index.html in any modern browser.
-
-Fill in name and age.
-
-Answer all 10 questions.
-
-Confirm consent checkbox.
-
-Click Submit Assessment.
-
-Results and interpretation will appear at the bottom of the page.
-
-Notes
-This tool is designed for self-assessment only and is not a diagnostic instrument.
-
-It does not collect or store user data unless extended with a backend or database.
-
-Always follow up with a professional clinician if the tool indicates moderate to severe use.
-
-Customization
-If you'd like to:
-
-Connect it to a backend (e.g., PHP, Firebase, Google Sheets)
-
-Translate to another language
-
-Embed in a larger health platform
+PHILIPPINE STANDARDS COMPLIANCE
+RA 11036:  (Mental Health Act):Promotes early detection, de-stigmatization, access to care
+DOH National Policy on Substance Use	Aligns with prevention, screening, and referral protocols
+PRC & PPA Ethical Guidelines: Ensures informed consent, confidentiality, professional oversight
+Data Privacy Act (RA 10173):	Secure data handling; no unauthorized sharing
+Cultural Validity	Local terms (e.g.,shabu, tuslob, pang-uri), family-centered context
