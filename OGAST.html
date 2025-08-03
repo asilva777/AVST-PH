@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <title>OGAST-PH | Online Gambling Addiction Screening Tool</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    < <!-- Google Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Oswald:400,600|Montserrat:400,700|Roboto+Condensed:400,700&display=swap" rel="stylesheet">
+  <!-- OG meta tags for sharing -->
+  <meta property="og:title" content="OGAST-PH: Online Gambling Addiction Screening Tool">
+  <meta property="og:description" content="Validated, Culturally Grounded, and Compliant with International & Philippine Standards. Screen for online gambling addiction risk.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cognitio.ph/ogast-ph">
+  <meta property="og:image" content="ogast-og-image.png">
+
   <style>
     :root {
       --primary: #b425aa;
@@ -14,6 +21,9 @@
       --white: #fff;
       --gray-bg: #f4f6f9;
       --shadow: 0 0 12px rgba(0,0,0,0.08);
+      --danger: #d70e3d;
+      --success: #23b425;
+      --warning: #e6a500;
     }
     html, body {
       height: 100%;
@@ -21,6 +31,30 @@
       padding: 0;
       background: var(--gray-bg);
       font-family: 'Montserrat', 'Roboto Condensed', 'Oswald', Arial, sans-serif;
+      font-size: 16px;
+    }
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      z-index: 100;
+      background: var(--accent);
+      color: #222;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      left: 10px;
+      top: 10px;
+      width: auto;
+      height: auto;
+      font-size: 1.1rem;
+      outline: 2px solid var(--primary);
     }
     body {
       min-height: 100vh;
@@ -81,7 +115,7 @@
       display: block;
       margin: 0.7rem 0 0.25rem 0;
     }
-    input[type="text"], input[type="number"], select {
+    input[type="text"], input[type="number"], select, input[type="date"] {
       width: 100%;
       padding: 0.6rem;
       border: 1.5px solid #d1c7d3;
@@ -97,7 +131,7 @@
       accent-color: var(--primary);
       vertical-align: middle;
     }
-    .radio-group, .checkbox-group {
+    .radio-group, .checkbox-group, .options {
       display: flex;
       flex-wrap: wrap;
       gap: 1.2rem;
@@ -183,9 +217,20 @@
       cursor: pointer;
       box-shadow: 0 3px 16px rgba(180,37,170,0.05);
       margin-top: 1rem;
-      transition: background 0.2s;
+      transition: background 0.2s, outline 0.2s;
     }
-    button:hover { background: linear-gradient(90deg, var(--secondary), var(--primary)); }
+    button:disabled {
+      background: #ccc;
+      color: #999;
+      cursor: not-allowed;
+    }
+    button:focus, .btn:focus {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+    button:hover:not(:disabled), .btn:hover:not(:disabled) {
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+    }
     .results {
       background: #fff2fa;
       border-left: 7px solid var(--primary);
@@ -196,13 +241,17 @@
       font-size: 1.1rem;
       box-shadow: var(--shadow);
     }
+    .results[aria-live] {
+      outline: 2px dashed var(--primary);
+      outline-offset: 3px;
+    }
     .results h3 {
       color: var(--primary);
       margin-top: 0;
     }
-    .risk-low { color: #23b425; font-weight: bold; }
-    .risk-moderate { color: #e6a500; font-weight: bold; }
-    .risk-high { color: #d70e3d; font-weight: bold; }
+    .risk-low { color: var(--success); font-weight: bold; }
+    .risk-moderate { color: var(--warning); font-weight: bold; }
+    .risk-high { color: var(--danger); font-weight: bold; }
     .referral-actions {
       margin-top: 0.6rem;
       display: flex;
@@ -229,133 +278,182 @@
       color: #111;
     }
     .validation-error {
-      color: #d70e3d;
+      color: var(--danger);
       font-size: 1rem;
       font-family: 'Roboto Condensed', sans-serif;
-      margin-top: 0.7rem;
+      margin-top: 0.2rem;
       margin-bottom: 0.7rem;
+      display: block;
+    }
+    .tooltip {
+      display: inline-block;
+      position: relative;
+      cursor: help;
+      color: var(--primary);
+      font-size: 1.1em;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 230px;
+      background-color: #222;
+      color: #fff;
+      font-size: 0.95em;
+      text-align: left;
+      border-radius: 6px;
+      padding: 0.6em 0.8em;
+      position: absolute;
+      z-index: 10;
+      top: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .tooltip:focus .tooltiptext,
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
     }
     @media (max-width:700px) {
       main { padding: 1.2rem 0.5rem; }
       header h1 { font-size: 1.3rem; }
       .signature-row { flex-direction: column; gap: 0.7rem; }
       .form-row { flex-direction: column; gap: 0.2rem; }
+      .tooltip .tooltiptext { left: 8%; width: 90vw; }
     }
-    <!-- OG meta tags for sharing -->
-    <meta property="og:title" content="OGAST-PH: Online Gambling Addiction Screening Tool">
-    <meta property="og:description" content="Validated, Culturally Grounded, and Compliant with International & Philippine Standards. Screen for online gambling addiction risk.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cognitio.ph/ogast-ph">
-    <meta property="og:image" content="ogast-og-image.png">
-
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Online Gambling Addiction Screening Tool (OGAST-PH)</h1>
-            <p class="subtitle">Validated, Culturally Grounded, and Compliant with International &amp; Philippine Standards</p>
-        </header>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header>
+    <h1>Online Gambling Addiction Screening Tool (OGAST-PH)</h1>
+    <p class="subtitle">Validated, Culturally Grounded, and Compliant with International &amp; Philippine Standards</p>
+  </header>
+  <main id="main-content" tabindex="-1">
+    <section class="intro">
+      <p>
+        <strong>Purpose:</strong> To screen for vulnerability to online gambling addiction among Filipino adolescents and adults in schools, workplaces, and clinical settings.
+      </p>
+    </section>
 
-        <section class="intro">
-            <p>
-                <strong>Purpose:</strong> To screen for vulnerability to online gambling addiction among Filipino adolescents and adults in schools, workplaces, and clinical settings.
-            </p>
-        </section>
+    <nav aria-label="Quick links" style="margin-bottom: 1.2rem;">
+      <ul style="display: flex; flex-wrap: wrap; gap: 1.3em; list-style: none; padding-left: 0;">
+        <li><a href="#compliance">Compliance</a></li>
+        <li><a href="#instructions">Instructions</a></li>
+        <li><a href="#ogast-form">Screening Tool</a></li>
+        <li><a href="#privacy">Data Privacy</a></li>
+      </ul>
+    </nav>
 
-        <section class="compliance">
-            <h2>✅ Compliance Framework</h2>
-            <ul>
-                <li><b>DSM-5-TR (Gambling Disorder):</b> Diagnostic alignment</li>
-                <li><b>ICD-11 (6C50 – Gambling Disorder):</b> Global classification</li>
-                <li><b>APA, AERA, NCME, ITC:</b> Psychometric validity, ethical use</li>
-                <li><b>RA 9287 (Anti-Illegal Gambling Act):</b> Distinguishes illegal vs. regulated gambling</li>
-                <li><b>RA 11036 (Mental Health Act):</b> Early detection, destigmatization, access to care</li>
-                <li><b>Data Privacy Act (RA 10173):</b> Secure, confidential handling</li>
-                <li><b>PCPG:</b> Evidence-based risk assessment</li>
-            </ul>
-    
+    <section id="compliance" class="compliance">
+      <h2>✅ Compliance Framework</h2>
+      <ul>
+        <li><b>DSM-5-TR (Gambling Disorder):</b> Diagnostic alignment</li>
+        <li><b>ICD-11 (6C50 – Gambling Disorder):</b> Global classification</li>
+        <li><b>APA, AERA, NCME, ITC:</b> Psychometric validity, ethical use</li>
+        <li><b>RA 9287 (Anti-Illegal Gambling Act):</b> Distinguishes illegal vs. regulated gambling</li>
+        <li><b>RA 11036 (Mental Health Act):</b> Early detection, destigmatization, access to care</li>
+        <li><b>Data Privacy Act (RA 10173):</b> Secure, confidential handling</li>
+        <li><b>PCPG:</b> Evidence-based risk assessment</li>
+      </ul>
+    </section>
 
-        <section class="instructions">
-            <h2>OGAST-PH Screening Tool</h2>
-            <p>
-                <b>The following questions concern your involvement with online gambling activities in the past 12 months.</b>
-                <br>
-                "Online gambling" includes: e-sabong (online cockfighting), color games/number games (e.g., "555", "6D", "color prediction"), live dealer casinos (Baccarat, Roulette), sports betting apps, credit shops, social media gambling groups (Facebook, Telegram, TikTok).
-                <br>
-                <b>❗ This does not include legal lotteries (e.g., PCSO Lotto) or fantasy sports without real-money stakes.</b>
-                <br>
-                <b>🔹 Please answer every question honestly.<br>
-                🔹 If unsure, choose the answer closest to the truth.<br>
-                🔹 This is a screening tool, not a diagnosis.</b>
-            </p>
-        </section>
+    <section id="instructions" class="instructions">
+      <h2>OGAST-PH Screening Tool</h2>
+      <div class="notice" aria-label="Instructions">
+        <ul>
+          <li><b>The following questions concern your involvement with online gambling activities in the past 12 months.</b> <span class="tooltip" tabindex="0">ⓘ<span class="tooltiptext">Online gambling includes: e-sabong, color/number games (e.g., "555", "6D"), live casino, sports betting, etc.</span></span></li>
+          <li><b>This does not include legal lotteries (like PCSO Lotto), or fantasy sports without real-money stakes.</b></li>
+          <li><b>❗ Please answer every question honestly.</b></li>
+          <li>If unsure, choose the answer closest to the truth.</li>
+          <li>This is a screening tool, not a diagnosis.</li>
+        </ul>
+      </div>
+    </section>
 
-        <form id="ogastForm">
-            <fieldset>
-                <legend>Demographic Information</legend>
-                <label for="fullname">Full Name</label>
-                <input type="text" id="fullname" name="fullname" required maxlength="70">
+    <form id="ogastForm" aria-labelledby="ogast-form" novalidate>
+      <fieldset aria-describedby="demo-desc">
+        <legend id="ogast-form">Demographic Information</legend>
+        <div id="demo-desc" class="form-label" style="font-weight: 400; color: #555;">
+          Your information is confidential and used only for risk stratification.
+        </div>
+        <label for="fullname">Full Name <span aria-hidden="true">*</span></label>
+        <input type="text" id="fullname" name="fullname" maxlength="70" autocomplete="name" required aria-required="true" aria-describedby="fullname-error">
+        <span id="fullname-error" class="validation-error" aria-live="polite"></span>
 
-                <label for="age">Age</label>
-                <input type="number" id="age" name="age" min="10" max="120" required>
+        <div class="form-row">
+          <div>
+            <label for="age">Age <span aria-hidden="true">*</span></label>
+            <input type="number" id="age" name="age" min="10" max="120" required aria-required="true" aria-describedby="age-error">
+            <span id="age-error" class="validation-error" aria-live="polite"></span>
+          </div>
+          <div>
+            <span class="form-label">Gender <span aria-hidden="true">*</span></span>
+            <div class="radio-group" role="radiogroup" aria-labelledby="gender-label">
+              <label><input type="radio" id="gender-male" name="gender" value="Male" required aria-required="true"> Male</label>
+              <label><input type="radio" id="gender-female" name="gender" value="Female"> Female</label>
+              <label><input type="radio" id="gender-lgbtq" name="gender" value="LGBTQ+"> LGBTQ+</label>
+              <label><input type="radio" id="gender-prefer" name="gender" value="Prefer not to say"> Prefer not to say</label>
+            </div>
+            <span id="gender-error" class="validation-error" aria-live="polite"></span>
+          </div>
+        </div>
 
-                <label>Gender</label>
-                <div class="options">
-                    <label><input type="radio" name="gender" value="Male" required> Male</label>
-                    <label><input type="radio" name="gender" value="Female"> Female</label>
-                    <label><input type="radio" name="gender" value="LGBTQ+"> LGBTQ+</label>
-                    <label><input type="radio" name="gender" value="Prefer not to say"> Prefer not to say</label>
-                </div>
+        <label for="region">Region <span aria-hidden="true">*</span></label>
+        <select id="region" name="region" class="region-select" required aria-required="true" aria-describedby="region-error">
+          <option value="">Select Region</option>
+          <option>NCR</option>
+          <option>Region I - Ilocos</option>
+          <option>Region II - Cagayan Valley</option>
+          <option>Region III - Central Luzon</option>
+          <option>Region IV-A - CALABARZON</option>
+          <option>Region IV-B - MIMAROPA</option>
+          <option>Region V - Bicol</option>
+          <option>Region VI - Western Visayas</option>
+          <option>Region VII - Central Visayas</option>
+          <option>Region VIII - Eastern Visayas</option>
+          <option>Region IX - Zamboanga Peninsula</option>
+          <option>Region X - Northern Mindanao</option>
+          <option>Region XI - Davao</option>
+          <option>Region XII - SOCCSKSARGEN</option>
+          <option>Region XIII - Caraga</option>
+          <option>Cordillera Administrative Region</option>
+          <option>Bangsamoro (BARMM)</option>
+        </select>
+        <span id="region-error" class="validation-error" aria-live="polite"></span>
 
-                <label for="region">Region</label>
-                <select id="region" name="region" required>
-                    <option value="">Select Region</option>
-                    <option>NCR</option>
-                    <option>Region I - Ilocos</option>
-                    <option>Region II - Cagayan Valley</option>
-                    <option>Region III - Central Luzon</option>
-                    <option>Region IV-A - CALABARZON</option>
-                    <option>Region IV-B - MIMAROPA</option>
-                    <option>Region V - Bicol</option>
-                    <option>Region VI - Western Visayas</option>
-                    <option>Region VII - Central Visayas</option>
-                    <option>Region VIII - Eastern Visayas</option>
-                    <option>Region IX - Zamboanga Peninsula</option>
-                    <option>Region X - Northern Mindanao</option>
-                    <option>Region XI - Davao</option>
-                    <option>Region XII - SOCCSKSARGEN</option>
-                    <option>Region XIII - Caraga</option>
-                    <option>Cordillera Administrative Region</option>
-                    <option>Bangsamoro (BARMM)</option>
-                </select>
+        <label>Occupation/Status <span aria-hidden="true">*</span></label>
+        <div class="checkbox-group" role="group" aria-labelledby="occupation-label">
+          <label><input type="checkbox" name="occupation" value="Student"> Student</label>
+          <label><input type="checkbox" name="occupation" value="OFW"> OFW</label>
+          <label><input type="checkbox" name="occupation" value="Employed"> Employed</label>
+          <label><input type="checkbox" name="occupation" value="Unemployed"> Unemployed</label>
+          <label><input type="checkbox" name="occupation" value="Retired"> Retired</label>
+          <label>Other: <input type="text" name="occupation_other" maxlength="30" aria-label="Other occupation"></label>
+        </div>
+        <span id="occupation-error" class="validation-error" aria-live="polite"></span>
+        <span class="form-label">Monthly Income <span aria-hidden="true">*</span></span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="income-label">
+          <label><input type="radio" name="income" value="<₱10K" required aria-required="true"> &lt;₱10K</label>
+          <label><input type="radio" name="income" value="₱10–20K"> ₱10–20K</label>
+          <label><input type="radio" name="income" value="₱20–50K"> ₱20–50K</label>
+          <label><input type="radio" name="income" value=">₱50K"> &gt;₱50K</label>
+          <label><input type="radio" name="income" value="No fixed income"> No fixed income</label>
+        </div>
+        <span id="income-error" class="validation-error" aria-live="polite"></span>
+      </fieldset>
 
-                <label>Occupation/Status</label>
-                <div class="options">
-                    <label><input type="checkbox" name="occupation" value="Student"> Student</label>
-                    <label><input type="checkbox" name="occupation" value="OFW"> OFW</label>
-                    <label><input type="checkbox" name="occupation" value="Employed"> Employed</label>
-                    <label><input type="checkbox" name="occupation" value="Unemployed"> Unemployed</label>
-                    <label><input type="checkbox" name="occupation" value="Retired"> Retired</label>
-                    <label><input type="checkbox" name="occupation" value="Other"> Other: <input type="text" name="occupation_other" maxlength="30"></label>
-                </div>
-
-                <label>Monthly Income</label>
-                <div class="options">
-                    <label><input type="radio" name="income" value="<₱10K" required> &lt;₱10K</label>
-                    <label><input type="radio" name="income" value="₱10–20K"> ₱10–20K</label>
-                    <label><input type="radio" name="income" value="₱20–50K"> ₱20–50K</label>
-                    <label><input type="radio" name="income" value=">₱50K"> &gt;₱50K</label>
-                    <label><input type="radio" name="income" value="No fixed income"> No fixed income</label>
-                </div>
-            </fieldset>
-
-            <fieldset>
-                <legend>Screening Questions (Past 12 Months)</legend>
-                <!-- Loop for each of 20 questions -->
-                <ol>
-                    <li>Have you placed bets or played games <b>online for money</b> (e.g., e-sabong, color game, live casino)?<br>
-                        <label><input type="radio" name="q1" value="0" required> No</label>
-                        <label><input type="radio" name="q1" value="1"> Yes</label>
+      <fieldset>
+        <legend>Screening Questions (Past 12 Months)</legend>
+        <div class="form-label" style="font-weight: 400; color: #555;">
+          Please answer based on your experience in the last year.
+        </div>
+        <ol>
+          <li>Have you placed bets or played games <b>online for money</b> (e.g., e-sabong, color game, live casino)? <span class="tooltip" tabindex="0">ⓘ<span class="tooltiptext">Includes any real-money online gambling.</span></span><br>
+            <label><input type="radio" name="q1" value="0" required aria-required="true"> No</label>
+            <label><input type="radio" name="q1" value="1"> Yes</label>
+          </li> <label><input type="radio" name="q1" value="1"> Yes</label>
                     </li>
                     <li>Do you use <b>more than one online gambling platform</b> (e.g., 2+ apps or websites)?<br>
                         <label><input type="radio" name="q2" value="0" required> No</label>
@@ -434,55 +532,202 @@
                         <label><input type="radio" name="q20" value="0" required> No</label>
                         <label><input type="radio" name="q20" value="1"> Yes</label>
                     </li>
-                </ol>
-            </fieldset>
+               </ol>
+      </fieldset>
+      <fieldset>
+        <legend>Informed Consent &amp; Declaration</legend>
+        <div class="consent-box">
+          <p>I confirm that:</p>
+          <ul>
+            <li>I understand this is a screening tool, not a diagnosis</li>
+            <li>My responses will be kept confidential and stored securely</li>
+            <li>Results may be shared only with authorized professionals (e.g., counselor, psychologist)</li>
+            <li>I have the right to withdraw at any time</li>
+            <li>I consent to this assessment for self-awareness and early intervention purposes</li>
+          </ul>
+        </div>
+        <label for="signature">Signature (Digital/Printed): <span aria-hidden="true">*</span></label>
+        <input type="text" id="signature" name="signature" maxlength="70" required aria-required="true" aria-describedby="signature-error">
+        <span id="signature-error" class="validation-error" aria-live="polite"></span>
+        <label for="date">Date: <span aria-hidden="true">*</span></label>
+        <input type="date" id="date" name="date" required aria-required="true" aria-describedby="date-error">
+        <span id="date-error" class="validation-error" aria-live="polite"></span>
+        <div id="minor-consent" class="minor-section" style="display: none;">
+          <p><b>🔔 For Minors: Parent/guardian co-signature required:</b></p>
+          <label for="parent_name">Parent/Guardian Name:</label>
+          <input type="text" id="parent_name" name="parent_name" maxlength="70" aria-describedby="parent_name-error">
+          <span id="parent_name-error" class="validation-error" aria-live="polite"></span>
+          <label for="parent_signature">Signature:</label>
+          <input type="text" id="parent_signature" name="parent_signature" maxlength="70" aria-describedby="parent_signature-error">
+          <span id="parent_signature-error" class="validation-error" aria-live="polite"></span>
+          <label for="parent_date">Date:</label>
+          <input type="date" id="parent_date" name="parent_date" aria-describedby="parent_date-error">
+          <span id="parent_date-error" class="validation-error" aria-live="polite"></span>
+        </div>
+      </fieldset>
 
-            <fieldset>
-                <legend>Informed Consent &amp; Declaration</legend>
-                <p>
-                    I confirm that:
-                    <ul>
-                        <li>I understand this is a screening tool, not a diagnosis</li>
-                        <li>My responses will be kept confidential and stored securely</li>
-                        <li>Results may be shared only with authorized professionals (e.g., counselor, psychologist)</li>
-                        <li>I have the right to withdraw at any time</li>
-                        <li>I consent to this assessment for self-awareness and early intervention purposes</li>
-                    </ul>
-                </p>
-                <label for="signature">Signature (Digital/Printed):</label>
-                <input type="text" id="signature" name="signature" maxlength="70" required>
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required>
-                <div id="minor-consent">
-                    <p><b>🔔 For Minors: Parent/guardian co-signature required:</b></p>
-                    <label for="parent_name">Parent/Guardian Name:</label>
-                    <input type="text" id="parent_name" name="parent_name" maxlength="70">
-                    <label for="parent_signature">Signature:</label>
-                    <input type="text" id="parent_signature" name="parent_signature" maxlength="70">
-                    <label for="parent_date">Date:</label>
-                    <input type="date" id="parent_date" name="parent_date">
-                </div>
-            </fieldset>
+      <button type="submit" id="submitBtn" disabled>Submit</button>
+    </form>
 
-            <button type="submit">Submit</button>
-        </form>
+    <section id="result" class="results" aria-live="polite" style="display: none;"></section>
 
-       
+    <section id="privacy">
+      <h2>🔐 Data Privacy &amp; Ethical Safeguards</h2>
+      <ul>
+        <li>Encrypted storage in Philippine-based servers</li>
+        <li>No data shared with law enforcement or POGO employers</li>
+        <li>Anonymized reporting for schools/companies (e.g., % at risk)</li>
+        <li>DPO Contact: <a href="mailto:dpo@cognitio.ph">dpo@cognitio.ph</a> | 1-800-COGNITIO</li>
+      </ul>
+      <p><b>⚠️ Legal Note:</b> While online gambling is regulated under PAGCOR, participation by minors, employees during work hours, or using illegal platforms may violate RA 9287 and other laws.</p>
+    </section>
+  </main>
+  <script>
+    // Accessibility: focus main on skip
+    document.querySelector('.skip-link').addEventListener('click', function(e) {
+      setTimeout(() => document.getElementById('main-content').focus(), 10);
+    });
 
-        <section id="privacy">
-            <h2>🔐 Data Privacy &amp; Ethical Safeguards</h2>
-            <ul>
-                <li>Encrypted storage in Philippine-based servers</li>
-                <li>No data shared with law enforcement or POGO employers</li>
-                <li>Anonymized reporting for schools/companies (e.g., % at risk)</li>
-                <li>DPO Contact: <a href="mailto:dpo@cognitio.ph">dpo@cognitio.ph</a> | 1-800-COGNITIO</li>
-            </ul>
-            <p><b>⚠️ Legal Note:</b> While online gambling is regulated under PAGCOR, participation by minors, employees during work hours, or using illegal platforms may violate RA 9287 and company policies.</p>
-       
+    // Minor consent logic
+    const ageInput = document.getElementById('age');
+    const minorConsent = document.getElementById('minor-consent');
+    function toggleMinorSection() {
+      const age = parseInt(ageInput.value, 10);
+      if (!isNaN(age) && age < 18) {
+        minorConsent.style.display = '';
+        document.getElementById('parent_name').setAttribute('required', 'required');
+        document.getElementById('parent_signature').setAttribute('required', 'required');
+        document.getElementById('parent_date').setAttribute('required', 'required');
+      } else {
+        minorConsent.style.display = 'none';
+        document.getElementById('parent_name').removeAttribute('required');
+        document.getElementById('parent_signature').removeAttribute('required');
+        document.getElementById('parent_date').removeAttribute('required');
+      }
+    }
+    ageInput.addEventListener('input', toggleMinorSection);
 
-        </section>
-    </div>
-    <!-- Link your JavaScript file here -->
-    <script src="script.js"></script>
+    // Validation helpers
+    function showError(id, msg) {
+      const el = document.getElementById(id + '-error');
+      if (el) el.textContent = msg;
+    }
+    function clearError(id) {
+      const el = document.getElementById(id + '-error');
+      if (el) el.textContent = '';
+    }
+
+    // Form validation and button enable
+    const form = document.getElementById('ogastForm');
+    const submitBtn = document.getElementById('submitBtn');
+    form.addEventListener('input', function(e) {
+      let valid = true;
+
+      // Name
+      if (!form.fullname.value.trim()) { showError('fullname', 'Full name required.'); valid = false; }
+      else clearError('fullname');
+
+      // Age
+      const age = parseInt(form.age.value, 10);
+      if (!form.age.value || isNaN(age) || age < 10 || age > 120) { showError('age', 'Enter a valid age (10-120).'); valid = false; }
+      else clearError('age');
+
+      // Gender
+      if (![...form.gender].some(r=>r.checked)) { showError('gender', 'Select gender.'); valid = false; }
+      else clearError('gender');
+
+      // Region
+      if (!form.region.value) { showError('region', 'Select region.'); valid = false; }
+      else clearError('region');
+
+      // At least one occupation
+      if (![...form.elements].some(el=>el.name==='occupation' && el.checked) && !form.occupation_other.value.trim()) {
+        showError('occupation', 'Select or specify occupation.'); valid = false;
+      } else clearError('occupation');
+
+      // Income
+      if (![...form.income].some(r=>r.checked)) { showError('income', 'Select monthly income.'); valid = false; }
+      else clearError('income');
+
+      // Signature
+      if (!form.signature.value.trim()) { showError('signature', 'Signature required.'); valid = false; }
+      else clearError('signature');
+
+      // Date
+      if (!form.date.value) { showError('date', 'Date required.'); valid = false; }
+      else clearError('date');
+
+      // Minor consent fields
+      if (!isNaN(age) && age < 18) {
+        if (!form.parent_name.value.trim()) { showError('parent_name', 'Parent/guardian name required.'); valid = false; }
+        else clearError('parent_name');
+        if (!form.parent_signature.value.trim()) { showError('parent_signature', 'Parent/guardian signature required.'); valid = false; }
+        else clearError('parent_signature');
+        if (!form.parent_date.value) { showError('parent_date', 'Parent/guardian date required.'); valid = false; }
+        else clearError('parent_date');
+      } else {
+        clearError('parent_name'); clearError('parent_signature'); clearError('parent_date');
+      }
+
+      // Screening questions
+      for (let i=1; i<=20; ++i) {
+        if (![...form['q'+i]].some(r=>r.checked)) {
+          valid = false;
+        }
+      }
+
+      submitBtn.disabled = !valid;
+    });
+
+    // Tooltips keyboard support
+    document.querySelectorAll('.tooltip').forEach(tip => {
+      tip.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          this.classList.toggle('active');
+        }
+      });
+    });
+
+    // Form submit handler with scoring and accessibility
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let score = 0;
+      for (let i=1; i<=20; ++i) {
+        const val = [...form['q'+i]].find(r=>r.checked)?.value;
+        if (val === "1") score += 1;
+      }
+      let risk = "";
+      let riskClass = "";
+      let nextSteps = "";
+      if (score <= 2) {
+        risk = "Low risk";
+        riskClass = "risk-low";
+        nextSteps = "Maintain healthy habits. No professional intervention needed at this time.";
+      } else if (score <= 6) {
+        risk = "Moderate risk";
+        riskClass = "risk-moderate";
+        nextSteps = "Consider talking to a counselor or trusted adult about your gambling habits.";
+      } else {
+        risk = "High risk";
+        riskClass = "risk-high";
+        nextSteps = "We recommend consulting a mental health professional or counselor as soon as possible. Early intervention is key.";
+      }
+      const resultSection = document.getElementById('result');
+      resultSection.innerHTML = `
+        <h3>Screening Result</h3>
+        <p>Your score: <b>${score}/20</b></p>
+        <p class="${riskClass}">${risk}</p>
+        <div class="referral-actions">
+          <p>${nextSteps}</p>
+          <a href="https://mentalhealthph.org/" target="_blank" rel="noopener">Find Help</a>
+          <a href="mailto:dpo@cognitio.ph">Contact DPO</a>
+        </div>
+      `;
+      resultSection.style.display = '';
+      resultSection.setAttribute('tabindex', '-1');
+      resultSection.focus();
+      window.scrollTo({top: resultSection.offsetTop - 50, behavior: "smooth"});
+    });
+  </script>
 </body>
 </html>
