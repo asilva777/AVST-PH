@@ -147,7 +147,7 @@ function submitAVST() {
     actions = `
       <div class="referral-actions">
         <a href="https://www.ncmh.gov.ph/services/counseling/" target="_blank" rel="noopener">Schedule Free Tele-counseling</a>
-        <a href="https://www.doh.gov.ph/sites/default/files/publications/Coping-with-Stress.pdf" target="_blank" rel="noopener">Download Coping Strategies Guide (PDF)</a>
+        <a href="https://assistance.ph/government-assistance-programs-for-persons-with-substance-abuse-issues/" target="_blank" rel="noopener">Explore Government Assistance Programs</a>
       </div>
       <div style="margin-top:0.5rem;font-size:0.96rem;color:#333;">
         <strong>Notice:</strong> For institutional use, an alert will be sent to the designated school psychologist or HR officer.
@@ -161,7 +161,6 @@ function submitAVST() {
       <div class="referral-actions">
         <a href="tel:1553">Chat with DOH Mental Health Hotline (1553)</a>
         <a href="https://dost.gov.ph/CDTI" target="_blank" rel="noopener">Locate Nearest DOST-CDTI</a>
-        <a href="https://www.dilg.gov.ph/PADAC-BADAC-Directory" target="_blank" rel="noopener">Barangay Anti-Drug Abuse Council (BADAC)</a>
         <a href="https://www.ncmh.gov.ph/services/psychological-services/" target="_blank" rel="noopener">Request Confidential Appointment with Psychologist</a>
       </div>
       <div style="margin-top:0.5rem;font-size:0.96rem;color:#333;">
@@ -199,7 +198,7 @@ function submitAVST() {
     ${aiFlag}
     <hr style="margin:1.8rem 0 1.2rem 0;border:none;border-top:1px dashed #ccc;">
     <div style="font-size:0.98rem;color:#444;">
-      <strong>Data Privacy & Safeguards:</strong> Your information is encrypted and stored only in Philippine-based servers. No data is shared with law enforcement or third parties without your consent (unless life-threatening). For concerns, contact our DPO at <a href="mailto:dpo@cognitio.ph">dpo@cognitio.ph</a> or 1-800-COGNITIO.
+      <strong>Data Privacy & Safeguards:</strong> Your information is encrypted and stored only in Philippine-based servers. No data is shared with law enforcement or third parties without your consent (unless life-threatening). For concerns, contact Cognitio+ at <a href="mailto:hello@cognitioplus.com">INFORATION at Cognitio+</a> or +639541986522.
     </div>
     <div style="font-size:0.97rem;color:#333;margin-top:1.2rem;">
       <strong>Validated and Culturally Adapted:</strong> Based on NIDA Quick Screen, ASSIST-Lite, CAGE-AID, and DOH PH guidelines. Pilot-tested with 1,200 Filipinos. Sensitivity: 89% | Specificity: 82%.
